@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>おへやコンパス</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f0;color:#263b36;font:14px system-ui,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #d4ddd6;border-radius:8px;background:white;padding:9px 12px;color:inherit}button:hover{background:#edf3ed}button:disabled{opacity:.4;cursor:default}header{padding:24px 28px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{display:flex;align-items:center;gap:12px}.mark{width:48px;height:48px;flex-shrink:0}.title{font-size:24px;font-weight:750;letter-spacing:1px}small{color:#74827b;font-size:12px;display:block;margin-top:5px;line-height:1.6}.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;padding:0 24px 24px;align-items:start}.toolbar,.actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}.actions{margin:16px 0 0}.primary{background:#315e4d;color:white;border-color:#315e4d}.board,aside{background:white;border:1px solid #e1e5dd;border-radius:16px}.board{padding:18px;overflow:auto;max-height:72vh;min-height:330px}#plan{display:block;max-width:none;touch-action:none;user-select:none}aside{padding:20px}h2{font-size:16px;margin:0 0 18px}label{display:block;font-size:12px;color:#68796f;margin:14px 0 5px}input,select{width:100%;padding:9px;border:1px solid #d8dfd8;border-radius:7px;background:white;color:#263b36}input:focus{outline:2px solid #8cbaaa;outline-offset:1px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.swap{width:100%;margin-top:10px;background:#edf3ed}.legend,.note,.hint{color:#74827b;font-size:12px;line-height:1.8}.legend{padding:14px 3px}.note{margin-top:20px}.notice{background:#fff1ec;color:#a34738;padding:10px;border-radius:8px;font-size:12px;margin-top:12px}.lock{display:flex;align-items:center;gap:9px;background:#eef1eb;padding:12px;border-radius:8px;font-size:13px;cursor:pointer;margin-top:16px}.lock input{width:17px;height:17px;margin:0;accent-color:#315e4d}#status{font-size:12px;color:#74827b}.danger{color:#b14e3d;border-color:#e4c6bd}.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:15px}.count{color:#74827b;font-size:12px;margin-right:auto}.confirm{margin-top:14px;background:#fff3ee;padding:12px;border-radius:8px;font-size:12px;line-height:1.7}.toast{display:none;padding:10px 14px;background:#e8efe6;border-radius:9px;margin-bottom:14px;align-items:center;justify-content:space-between;gap:12px;font-size:12px}.toast.visible{display:flex}.nudge{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.nudge button{padding:10px;font-size:18px}.nudge-center{display:grid;place-items:center;font-size:12px;color:#638072}.clearance{margin-top:16px;border:1px solid #d6e4dd;background:#f3f8f5;border-radius:10px;padding:12px}.gaps{display:grid;grid-template-columns:1fr 1fr;gap:8px}.gap{font-size:12px;color:#72847b}.gap b{display:block;font-size:17px;color:#315e4d;margin-top:2px}.gap b.negative{color:#bc5742}.toggle{display:flex;background:#e8ede7;padding:3px;border-radius:10px;gap:3px}.toggle button{padding:7px 12px;border:0;background:transparent}.toggle button.active{background:#315e4d;color:white}.space-button{background:#f0f6fa;border-color:#b9cfdc}.door-button{background:#fcf5e8;border-color:#e2cfaa}@media(max-width:850px){.layout{grid-template-columns:1fr;padding:0 12px 20px}header{padding:20px 16px}.board{padding:12px}.title{font-size:21px}}
+</style>
+<header><div class="brand">
+<svg class="mark" viewBox="0 0 48 48" aria-label="おへやコンパス アイコン">
+<rect width="48" height="48" rx="13" fill="#315e4d"/>
+<path d="M11 12h26v25H11V12Z" fill="none" stroke="#e9f0df" stroke-width="2.3" stroke-linejoin="round"/>
+<path d="M11 12h9v9h-9Z" fill="#a9c4ac"/>
+<path d="m31 17 5 15-8-4-4-8Z" fill="#ecd29a"/>
+<path d="m31 17-3 11-4-8Z" fill="#f9f1d5"/>
+</svg>
+<div><div class="title">おへやコンパス</div><small>間取りと家具の悩みをなくす、お部屋づくりナビ</small></div>
+</div><span id="status">保存を確認中</span></header>
+<div class="layout"><main style="min-width:0">
+<div class="toolbar">
+<button onclick="add('ベッド',100,200,'#dce7f1')">＋ ベッド</button><button onclick="add('棚',90,40,'#f1e5cf')">＋ 棚</button><button onclick="add('テーブル',140,80,'#e0e9d7')">＋ テーブル</button><button onclick="add('机',120,60,'#d9e9e5')">＋ 机</button><button onclick="add('ソファ',180,85,'#e8def0')">＋ ソファ</button><button onclick="add('その他',60,60,'#e4e7e5')">＋ 四角</button><button onclick="add('柱',40,50,'#d5dcd2','column')">＋ 柱</button><button onclick="add('欠け',100,100,'#f2efe9','cutout')">＋ 部屋の欠け</button>
+</div>
+<div class="toolbar">
+<button class="door-button" onclick="add('開き戸スペース',80,80,'#efd49b','hinged')">＋ 開き戸スペース</button>
+<button class="door-button" onclick="add('引き戸スペース',160,15,'#efd49b','sliding')">＋ 引き戸スペース</button>
+<button class="space-button" onclick="add('椅子空間',60,80,'#a8d3e8','chair')">＋ 椅子空間</button>
+</div>
+<div class="bar"><span class="count" id="roomCount"></span><span class="hint">移動単位</span><div class="toggle"><button id="mode1" onclick="setMode(1)">1cm</button><button id="mode01" onclick="setMode(.1)">0.1cm</button></div><button class="primary" onclick="addRoom()">＋ 部屋を追加</button></div>
+<div class="bar"><button onclick="setZoom(data.zoom-.1)">−</button><button id="zoomReset" onclick="setZoom(.8)">100%</button><button onclick="setZoom(data.zoom+.1)">＋</button><span class="hint">部屋数に関係なく同じ縮尺。図は縦・横にスクロールできます。</span></div>
+<div class="toast" id="toast"><span>部屋を削除しました</span><button onclick="undoDelete()">取り消す</button></div>
+<div class="board" id="board"><svg id="plan" role="img" aria-label="間取りと家具・ドア・椅子のスペース"></svg></div>
+<div class="legend">ドアスペースは部屋の枠外にも配置できます。椅子空間は椅子を引くために空けたい範囲です。<br>半透明の点線枠＝確保したいスペース。家具などと重なると赤く表示します。<br>ドラッグで部屋間移動。重なる位置では「移動不可」。Shiftで吸着解除。</div>
+</main><aside id="panel"></aside></div>
+<script>
+const KEY='simple-room-planner-v1',EPS=.0001;
+const initial=()=>({rooms:[{name:'リビング',w:420,h:350},{name:'寝室',w:320,h:350},{name:'子ども部屋',w:300,h:350}],items:[
+{id:1,name:'テーブル',w:140,h:80,x:130,y:130,room:0,color:'#e0e9d7'},
+{id:2,name:'ソファ',w:180,h:85,x:100,y:15,room:0,color:'#e8def0'},
+{id:3,name:'ベッド',w:100,h:200,x:15,y:15,room:1,color:'#dce7f1'},
+{id:4,name:'棚',w:90,h:40,x:195,y:15,room:1,color:'#f1e5cf'},
+{id:5,name:'柱',kind:'column',fixed:false,w:40,h:50,x:380,y:0,room:0,color:'#d5dcd2'}],moveStep:1,zoom:.8});
+let data=initial(),selected=null,roomIndex=0,drag=null,origins=[],deleted=null,message='',layoutCache=null;
+const svg=document.getElementById('plan'),panel=document.getElementById('panel'),status=document.getElementById('status');
+try{const s=JSON.parse(localStorage.getItem(KEY));
+if(s&&Array.isArray(s.rooms)&&s.rooms.length&&Array.isArray(s.items)&&s.rooms.every(r=>Number.isFinite(r.w)&&r.w>0&&Number.isFinite(r.h)&&r.h>0)&&s.items.every(i=>Number.isInteger(i.room)&&i.room>=0&&i.room<s.rooms.length&&['x','y','w','h'].every(k=>Number.isFinite(i[k]))&&i.w>0&&i.h>0)){
+data=s;data.items.forEach(i=>{if(!i.kind&&(i.fixed||i.name==='柱')){i.kind='column';i.fixed=false}});
+}status.textContent='このブラウザに自動保存';
+}catch{status.textContent='保存不可：この画面を閉じると消えます'}
+data.moveStep=data.moveStep===.1?.1:1;data.zoom=Number.isFinite(data.zoom)?Math.max(.3,Math.min(1.8,data.zoom)):.8;
+const round=v=>Math.round(v*10)/10,fmt=v=>String(round(v)),structure=i=>['column','cutout'].includes(i.kind),door=i=>['hinged','sliding'].includes(i.kind),space=i=>door(i)||i.kind==='chair';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));status.textContent='✓ このブラウザに保存済み'}catch{status.textContent='保存不可：この画面を閉じると消えます'}}
+function changed(){deleted=null;document.getElementById('toast').classList.remove('visible');save()}
+function setMode(v){data.moveStep=v;save();updateMode();const n=document.getElementById('nudgeStep');if(n)n.textContent=v+' cm';for(const k of['x','y']){const f=document.getElementById(k);if(f)f.step=v}}
+function updateMode(){for(const[id,v]of[['mode1',1],['mode01',.1]]){const b=document.getElementById(id);b.classList.toggle('active',data.moveStep===v);b.setAttribute('aria-pressed',String(data.moveStep===v))}}
+function setZoom(v){if(drag)return;data.zoom=Math.max(.3,Math.min(1.8,round(v)));save();render()}
+function el(tag,attrs={},text){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(text!==undefined)n.textContent=text;return n}
+function overlaps(a,b){return a.x<b.x+b.w-EPS&&a.x+a.w>b.x+EPS&&a.y<b.y+b.h-EPS&&a.y+a.h>b.y+EPS}
+function others(i){return data.items.filter(j=>j.id!==i.id&&j.room===i.room)}
+function collides(i){return others(i).some(j=>overlaps(i,j))}
+function outside(i){if(door(i))return false;const r=data.rooms[i.room];return i.x<-EPS||i.y<-EPS||i.x+i.w>r.w+EPS||i.y+i.h>r.h+EPS}
+function distances(i){
+const r=data.rooms[i.room],cx=i.x+i.w/2,cy=i.y+i.h/2,d=[
+{v:i.x,target:'壁',a:[0,cy],b:[i.x,cy],horizontal:true},
+{v:r.w-i.x-i.w,target:'壁',a:[i.x+i.w,cy],b:[r.w,cy],horizontal:true},
+{v:i.y,target:'壁',a:[cx,0],b:[cx,i.y],horizontal:false},
+{v:r.h-i.y-i.h,target:'壁',a:[cx,i.y+i.h],b:[cx,r.h],horizontal:false}];
+for(const j of others(i).filter(structure)){
+const y0=Math.max(i.y,j.y),y1=Math.min(i.y+i.h,j.y+j.h);
+if(y1-y0>EPS){const y=(y0+y1)/2;
+if(j.x+j.w<=i.x+EPS){const v=i.x-j.x-j.w;if(v<d[0].v)d[0]={...d[0],v,target:j.name||'柱',a:[j.x+j.w,y],b:[i.x,y]}}
+if(j.x>=i.x+i.w-EPS){const v=j.x-i.x-i.w;if(v<d[1].v)d[1]={...d[1],v,target:j.name||'柱',a:[i.x+i.w,y],b:[j.x,y]}}}
+const x0=Math.max(i.x,j.x),x1=Math.min(i.x+i.w,j.x+j.w);
+if(x1-x0>EPS){const x=(x0+x1)/2;
+if(j.y+j.h<=i.y+EPS){const v=i.y-j.y-j.h;if(v<d[2].v)d[2]={...d[2],v,target:j.name||'柱',a:[x,j.y+j.h],b:[x,i.y]}}
+if(j.y>=i.y+i.h-EPS){const v=j.y-i.y-i.h;if(v<d[3].v)d[3]={...d[3],v,target:j.name||'柱',a:[x,i.y+i.h],b:[x,j.y]}}}
+}return d;
+}
+function selectRoom(n){roomIndex=n;selected=null;message='';render();editor()}
+function computeLayout(){
+const cols=Math.min(3,data.rooms.length),rows=Math.ceil(data.rooms.length/cols),gap=65,pad=35;
+const bounds=data.rooms.map((r,n)=>{const a=data.items.filter(i=>i.room===n);return{left:Math.min(-35,...a.map(i=>i.x-20)),top:Math.min(-70,...a.map(i=>i.y-45)),right:Math.max(r.w+35,...a.map(i=>i.x+i.w+25)),bottom:Math.max(r.h+45,...a.map(i=>i.y+i.h+25))}});
+const cw=Array.from({length:cols},(_,c)=>Math.max(...bounds.filter((_,n)=>n%cols===c).map(b=>b.right-b.left)));
+const rh=Array.from({length:rows},(_,r)=>Math.max(...bounds.slice(r*cols,(r+1)*cols).map(b=>b.bottom-b.top)));
+return{width:cw.reduce((a,b)=>a+b,0)+gap*(cols-1)+pad*2,height:rh.reduce((a,b)=>a+b,0)+gap*(rows-1)+pad*2,
+origins:bounds.map((b,n)=>{const c=n%cols,r=Math.floor(n/cols);return{x:pad+cw.slice(0,c).reduce((a,b)=>a+b,0)+c*gap-b.left,y:pad+rh.slice(0,r).reduce((a,b)=>a+b,0)+r*gap-b.top}})};
+}
+function render(){
+svg.replaceChildren();updateMode();
+document.getElementById('roomCount').textContent=`${data.rooms.length}部屋`;document.getElementById('zoomReset').textContent=Math.round(data.zoom/.8*100)+'%';
+if(!drag||!layoutCache)layoutCache=computeLayout();const l=layoutCache;origins=l.origins;
+svg.setAttribute('viewBox',`0 0 ${l.width} ${l.height}`);svg.style.width=l.width*data.zoom+'px';svg.style.height=l.height*data.zoom+'px';
+const defs=el('defs'),p=el('pattern',{id:'grid',width:10,height:10,patternUnits:'userSpaceOnUse'});
+p.append(el('path',{d:'M10 0L0 0 0 10',fill:'none',stroke:'#e8ede7','stroke-width':.65}));defs.append(p);
+for(const[id,d,color]of[['hatch','M-2 2L2 -2M0 9L9 0M7 11L11 7','#899587'],['cutHatch','M0 0L12 12M12 0L0 12','#d8d1c6']]){
+const h=el('pattern',{id,width:id==='hatch'?9:12,height:id==='hatch'?9:12,patternUnits:'userSpaceOnUse'});h.append(el('path',{d,stroke:color,'stroke-width':.8}));defs.append(h)}
+svg.append(defs);
+data.rooms.forEach((r,n)=>{
+const o=origins[n],x=o.x,y=o.y;
+const title=el('text',{x,y:y-46,'font-size':16,'font-weight':650,cursor:'pointer',fill:roomIndex===n?'#315e4d':'#718178'},r.name+'  ✎');title.onclick=()=>selectRoom(n);svg.append(title);
+svg.append(el('text',{x,y:y-24,'font-size':12,fill:'#7d897f'},`${r.w} × ${r.h} cm`));
+const floor=el('rect',{x,y,width:r.w,height:r.h,fill:drag&&roomIndex===n?'#eff7ef':'white'});floor.onclick=()=>selectRoom(n);svg.append(floor);
+svg.append(el('rect',{x,y,width:r.w,height:r.h,fill:'url(#grid)','pointer-events':'none'}));
+svg.append(el('rect',{x:x-1.5,y:y-1.5,width:r.w+3,height:r.h+3,fill:'none',stroke:roomIndex===n?'#426956':'#aebbb0','stroke-width':3,'pointer-events':'none'}));
+});
+[...data.items].sort((a,b)=>Number(a.id===selected)-Number(b.id===selected)||Number(structure(a))-Number(structure(b))).forEach(i=>{
+const o=origins[i.room],moving=drag?.id===i.id,blocked=moving&&collides(i),bad=outside(i)||collides(i),zone=space(i),g=el('g',{transform:`translate(${o.x+i.x} ${o.y+i.y})`,cursor:i.fixed?'pointer':moving?'grabbing':'grab'});
+const color=bad?'#d74337':zone?(door(i)?'#ad8034':'#4c91b2'):selected===i.id?'#285b45':'#94a59a',sw=Math.min(blocked?3:selected===i.id?2:1,i.w/2,i.h/2);
+g.append(el('rect',{x:sw/2,y:sw/2,width:i.w-sw,height:i.h-sw,fill:bad?'#f5a798':i.color,stroke:color,'stroke-width':sw,'stroke-dasharray':zone?'5 3':'none','fill-opacity':zone?.23:moving?.8:1}));
+if(structure(i))g.append(el('rect',{x:sw,y:sw,width:Math.max(0,i.w-2*sw),height:Math.max(0,i.h-2*sw),fill:i.kind==='cutout'?'url(#cutHatch)':'url(#hatch)','pointer-events':'none'}));
+if(door(i))drawDoor(g,i,color);
+const fs=Math.min(12,i.w/5,i.h/3.5),style={fill:'#344b40','paint-order':'stroke',stroke:'#fafbf7','stroke-width':3,'pointer-events':'none'};
+g.append(el('text',{x:i.w/2,y:i.h/2-3,'text-anchor':'middle','font-size':fs,...style},i.name+(i.fixed?' 🔒':'')));
+g.append(el('text',{x:i.w/2,y:i.h/2+fs+1,'text-anchor':'middle','font-size':fs*.85,...style},`${i.w} × ${i.h}`));
+g.onpointerdown=e=>{if(e.button!==0)return;e.preventDefault();selected=i.id;roomIndex=i.room;message='';if(!i.fixed){const pt=point(e);drag={id:i.id,gripX:pt.x-o.x-i.x,gripY:pt.y-o.y-i.y,startX:i.x,startY:i.y,startRoom:i.room,pointerX:e.clientX,pointerY:e.clientY,moved:false};svg.setPointerCapture(e.pointerId)}render();editor()};svg.append(g);
+});
+const i=data.items.find(i=>i.id===selected);if(i){if(!door(i))drawDimensions(i);if(drag?.id===i.id&&collides(i))drawBlocked(i)}
+}
+function drawDoor(g,i,color){
+const q=((i.rotation||0)%360)/90;
+if(i.kind==='hinged'){
+const w=i.w,h=i.h,paths=[
+`M0 ${h}L0 0M0 ${h}L${w} ${h}M0 0A${w} ${h} 0 0 1 ${w} ${h}`,
+`M0 0L${w} 0M0 0L0 ${h}M${w} 0A${w} ${h} 0 0 1 0 ${h}`,
+`M${w} 0L${w} ${h}M${w} 0L0 0M${w} ${h}A${w} ${h} 0 0 1 0 0`,
+`M${w} ${h}L0 ${h}M${w} ${h}L${w} 0M0 ${h}A${w} ${h} 0 0 1 ${w} 0`];
+g.append(el('path',{d:paths[q],fill:'none',stroke:color,'stroke-width':1.8,'pointer-events':'none'}));
+}else{
+const horizontal=i.w>=i.h;
+g.append(el('path',{d:horizontal?`M3 3H${i.w-3}M3 ${i.h-3}H${i.w-3}M${i.w*.2} ${i.h*.35}H${i.w*.65}l-6 -3m6 3-6 3`:`M3 3V${i.h-3}M${i.w-3} 3V${i.h-3}M${i.w*.35} ${i.h*.2}V${i.h*.65}l-3 -6m3 6 3 -6`,fill:'none',stroke:color,'stroke-width':1.4,'pointer-events':'none'}));
+}
+}
+function drawBlocked(i){const o=origins[i.room],z=data.zoom,w=88/z,h=25/z,cx=o.x+i.x+i.w/2,y=o.y+i.y-h-5/z,g=el('g',{'pointer-events':'none'});g.append(el('rect',{x:cx-w/2,y,width:w,height:h,rx:5/z,fill:'#cc3e34'}));g.append(el('text',{x:cx,y:y+h/2,'text-anchor':'middle','dominant-baseline':'central','font-size':12/z,'font-weight':700,fill:'white'},'移動不可'));svg.append(g)}
+function drawDimensions(i){
+const o=origins[i.room],fs=Math.min(22,11/data.zoom),tick=4/data.zoom,g=el('g',{'pointer-events':'none'});
+distances(i).forEach((d,n)=>{
+const x1=o.x+d.a[0],y1=o.y+d.a[1],x2=o.x+d.b[0],y2=o.y+d.b[1],color=d.v<-EPS?'#bd5743':'#267d78',mx=(x1+x2)/2,my=(y1+y2)/2,h=d.horizontal;
+g.append(el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1,'stroke-dasharray':'4 3','vector-effect':'non-scaling-stroke'}));
+for(const[px,py]of[[x1,y1],[x2,y2]])g.append(el('line',{x1:px-(h?0:tick),y1:py-(h?tick:0),x2:px+(h?0:tick),y2:py+(h?tick:0),stroke:color,'stroke-width':1,'vector-effect':'non-scaling-stroke'}));
+g.append(el('text',{x:h?mx:mx+fs*.8,y:h?my-fs*.65:my,'font-size':fs,'text-anchor':h?'middle':'start','dominant-baseline':'central',fill:color,stroke:'#fff','stroke-width':fs*.45,'paint-order':'stroke'},`${['左','右','上','下'][n]} ${d.target} ${fmt(d.v)} cm`));
+});svg.append(g);
+}
+function point(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function dragPosition(i,x,y,magnet){
+const quant=v=>round(Math.round(v/data.moveStep)*data.moveStep),base={...i,x:quant(x),y:quant(y)};if(!magnet)return base;
+const r=data.rooms[i.room],threshold=7/data.zoom,xs=[0,r.w-i.w],ys=[0,r.h-i.h];
+for(const j of others(i)){if(base.y<j.y+j.h-EPS&&base.y+i.h>j.y+EPS)xs.push(j.x-i.w,j.x+j.w);if(base.x<j.x+j.w-EPS&&base.x+i.w>j.x+EPS)ys.push(j.y-i.h,j.y+j.h)}
+const near=(list,v)=>[...new Set(list)].filter(n=>Math.abs(n-v)<=threshold).sort((a,b)=>Math.abs(a-v)-Math.abs(b-v)),xx=near(xs,base.x),yy=near(ys,base.y),c=[];
+for(const a of xx)for(const b of yy)c.push({...base,x:round(a),y:round(b),axes:2});
+for(const a of xx)c.push({...base,x:round(a),axes:1});for(const b of yy)c.push({...base,y:round(b),axes:1});
+c.sort((a,b)=>b.axes-a.axes||Math.hypot(a.x-base.x,a.y-base.y)-Math.hypot(b.x-base.x,b.y-base.y));return c.find(v=>!collides(v))||base;
+}
+svg.onpointermove=e=>{
+if(!drag)return;if(!drag.moved&&Math.hypot(e.clientX-drag.pointerX,e.clientY-drag.pointerY)<2)return;drag.moved=true;
+const i=data.items.find(i=>i.id===drag.id),p=point(e),target=data.rooms.findIndex((r,n)=>p.x>=origins[n].x&&p.x<=origins[n].x+r.w&&p.y>=origins[n].y&&p.y<=origins[n].y+r.h);
+if(target>=0){i.room=target;roomIndex=target}
+const o=origins[i.room],c=dragPosition(i,p.x-o.x-drag.gripX,p.y-o.y-drag.gripY,!e.shiftKey);i.x=c.x;i.y=c.y;render();syncPosition();
+};
+function finishDrag(cancel=false){if(!drag)return;const d=drag,i=data.items.find(i=>i.id===d.id);drag=null;if(d.moved){if(cancel||collides(i)){i.x=d.startX;i.y=d.startY;i.room=d.startRoom;message=cancel?'移動をキャンセルしました。':'移動不可：他のパーツ・確保スペースと重なるため元に戻しました。'}else{message='';changed()}}roomIndex=i.room;render();editor()}
+svg.onpointerup=()=>finishDrag();svg.onpointercancel=()=>finishDrag(true);
+function updateGaps(i){if(door(i))return;distances(i).forEach((d,n)=>{const b=document.getElementById('gap'+n),l=document.getElementById('gapLabel'+n);if(b){b.textContent=fmt(d.v)+' cm';b.className=d.v<-EPS?'negative':''}if(l)l.textContent=['左','右','上','下'][n]+'の'+d.target+'まで'})}
+function syncPosition(){const i=data.items.find(i=>i.id===selected);if(!i)return;for(const k of['x','y']){const n=document.getElementById(k);if(n)n.value=i[k]}const s=document.getElementById('room');if(s)s.value=i.room;updateGaps(i);warnings(i)}
+function warnings(i){
+const n=document.getElementById('warning');if(!n)return;const t=[];if(message)t.push(message);if(i&&outside(i))t.push('部屋からはみ出しています。');
+if(i&&collides(i))t.push(drag?.id===i.id?'移動不可：パーツ・確保スペースと重なっています。':'パーツ・確保スペースと重なっています。位置や寸法を調整してください。');
+n.replaceChildren();for(const text of t){const d=document.createElement('div');d.className='notice';d.textContent=text;n.append(d)}
+}
+function field(label,type,id){return `<label for="${id}">${label}</label><input id="${id}" type="${type}" ${type==='number'?'min="0.1" max="2000" step="0.1"':''}>`}
+function apply(i,patch,prevent=false,rebuild=true){const c={...i,...patch};if(prevent&&collides(c)){message='移動不可：パーツ・確保スペースと重なります。';warnings(i);return false}Object.assign(i,patch);message='';changed();render();if(rebuild)editor();else{updateGaps(i);warnings(i)}return true}
+function rotate(i){const q=((i.rotation||0)+90)%360;apply(i,{w:i.h,h:i.w,rotation:q})}
+function editor(){
+const i=data.items.find(i=>i.id===selected),r=data.rooms[roomIndex],obj=i||r;
+const title=i?(i.kind==='cutout'?'部屋の欠け':i.kind==='column'?'柱':space(i)?'確保スペース':'家具'):'部屋';
+panel.innerHTML=`<h2>${title}を編集</h2>${i&&space(i)?'<div class="hint">'+(door(i)?'ドアのために確保する範囲。枠外にも配置できます。':'椅子本体ではなく、椅子を動かすために空けたい範囲です。')+'</div>':''}${field('名前','text','name')}
+<div class="pair"><div>${field('横幅（cm）','number','w')}</div><div>${field('奥行き（cm）','number','h')}</div></div>
+<div class="hint">Tab／Shift＋Tabで横幅と奥行きを切り替え</div>
+<button class="swap" id="swap">横幅 ⇄ 奥行き${i?'・90°回転':''}</button>
+${i?.kind==='hinged'?'<button class="swap" id="flipDoor">開く側を反転</button>':''}
+${i&&!door(i)?'<div class="clearance"><div class="hint">端から壁・柱・欠けまで</div><div class="gaps">'+[0,1,2,3].map(n=>`<div class="gap"><span id="gapLabel${n}"></span><b id="gap${n}"></b></div>`).join('')+'</div></div>':''}
+${i?'<label for="room">配置する部屋</label><select id="room"></select><div class="pair"><div>'+field('左から（cm）','number','x')+'</div><div>'+field('上から（cm）','number','y')+'</div></div><label>位置の微調整</label><div class="nudge"><span></span><button id="up">↑</button><span></span><button id="left">←</button><span class="nudge-center" id="nudgeStep">'+data.moveStep+' cm</span><button id="right">→</button><span></span><button id="down">↓</button><span></span></div><label class="lock"><input type="checkbox" id="fixed">位置を固定</label><div class="actions"><button id="copy">複製</button><button id="remove">削除</button></div>':'<div class="hint">L字などは全体を囲む寸法を入力して、「部屋の欠け」を追加してください。</div><div class="actions"><button class="danger" id="deleteRoom">この部屋を削除</button></div><div id="deleteConfirm"></div>'}
+<div id="warning"></div><div class="note">開き戸は点線の長方形全体を確保範囲として判定します。円弧の外側も含む、安全側の簡易判定です。<br>引き戸は扉が横移動する範囲、椅子空間は椅子を引く範囲を入力してください。<br>配置はこのブラウザ内に保存。表示の縮尺は部屋数によって変わりません。</div>`;
+['name','w','h',...(i?['x','y']:[])].forEach(k=>{
+const input=document.getElementById(k);input.value=obj[k];if(k==='x'||k==='y'){input.min=-2000;input.step=data.moveStep}
+input.onchange=()=>{if(k==='name'){obj[k]=input.value.trim()||'名前なし';input.value=obj[k];message='';changed();render();if(i)updateGaps(i);warnings(i);return}
+const v=Number(input.value);if(input.value.trim()===''||!Number.isFinite(v)||v>2000||v<((k==='w'||k==='h')?.1:-2000)){input.value=obj[k];message='寸法は0.1〜2000cm、位置は−2000〜2000cmで入力してください。';warnings(i);return}
+if(i){apply(i,{[k]:round(v)},false,false);input.value=obj[k]}else{obj[k]=round(v);input.value=obj[k];message='';changed();render();warnings(null)}};
+input.onkeydown=e=>{if((k==='w'||k==='h')&&e.key==='Tab'){e.preventDefault();input.dispatchEvent(new Event('change'));const next=document.getElementById(k==='w'?'h':'w');next.focus();next.select()}};
+});
+document.getElementById('swap').onclick=()=>{if(i)rotate(i);else{[r.w,r.h]=[r.h,r.w];message='';changed();render();editor()}};
+if(i){
+if(i.kind==='hinged')document.getElementById('flipDoor').onclick=()=>apply(i,{rotation:((i.rotation||0)+180)%360});
+updateGaps(i);
+const select=document.getElementById('room');data.rooms.forEach((r,n)=>{const op=document.createElement('option');op.value=n;op.textContent=r.name;select.append(op)});select.value=i.room;
+select.onchange=()=>{const room=Number(select.value),pos=findSpace({...i,room},i.id);roomIndex=room;apply(i,{room,...pos})};
+const check=document.getElementById('fixed');check.checked=!!i.fixed;check.onchange=()=>{i.fixed=check.checked;message='';changed();render();editor()};
+for(const[id,dx,dy]of[['up',0,-1],['down',0,1],['left',-1,0],['right',1,0]]){const b=document.getElementById(id);b.disabled=!!i.fixed;b.onclick=()=>apply(i,{x:round(i.x+dx*data.moveStep),y:round(i.y+dy*data.moveStep)},true)}
+document.getElementById('copy').onclick=()=>{const j={...i,id:uid(),fixed:false};Object.assign(j,findSpace(j));data.items.push(j);selected=j.id;message='';changed();render();editor()};
+document.getElementById('remove').onclick=()=>{data.items=data.items.filter(j=>j.id!==i.id);selected=null;message='';changed();render();editor()};
+}else{
+const btn=document.getElementById('deleteRoom');btn.disabled=data.rooms.length===1;if(btn.disabled)document.getElementById('deleteConfirm').innerHTML='<div class="hint">部屋は最低1つ必要です。</div>';
+btn.onclick=()=>{const count=data.items.filter(j=>j.room===roomIndex).length;document.getElementById('deleteConfirm').innerHTML=`<div class="confirm">この部屋と、中のパーツ${count}個を削除します。<div class="actions"><button class="danger" id="confirmDelete">削除する</button><button id="cancelDelete">キャンセル</button></div></div>`;document.getElementById('confirmDelete').onclick=deleteRoom;document.getElementById('cancelDelete').onclick=editor};
+}warnings(i);
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function findSpace(i,exclude=null){
+const r=data.rooms[i.room],obs=data.items.filter(j=>j.room===i.room&&j.id!==exclude),xs=[0],ys=[0];for(const j of obs){xs.push(j.x+j.w,j.x-i.w);ys.push(j.y+j.h,j.y-i.h)}
+if(!door(i)){const xx=[...new Set(xs)].filter(x=>x>=0).sort((a,b)=>a-b),yy=[...new Set(ys)].filter(y=>y>=0).sort((a,b)=>a-b);for(const y of yy)for(const x of xx){const c={...i,x,y};if(x+i.w<=r.w+EPS&&y+i.h<=r.h+EPS&&!obs.some(j=>overlaps(c,j)))return{x,y}}}
+return{x:Math.max(r.w,...obs.map(j=>j.x+j.w))+15,y:0};
+}
+function add(name,w,h,color,kind='furniture'){const i={id:uid(),name,w,h,color,kind,fixed:false,room:roomIndex,rotation:0};Object.assign(i,findSpace(i));data.items.push(i);selected=i.id;message='';changed();render();editor()}
+function addRoom(){data.rooms.push({name:'部屋 '+(data.rooms.length+1),w:300,h:350});roomIndex=data.rooms.length-1;selected=null;message='';changed();render();editor();document.getElementById('name').focus();document.getElementById('name').select()}
+function deleteRoom(){if(data.rooms.length<=1)return;deleted={data:JSON.parse(JSON.stringify(data)),roomIndex};const removed=roomIndex;data.items=data.items.filter(i=>i.room!==removed).map(i=>({...i,room:i.room>removed?i.room-1:i.room}));data.rooms.splice(removed,1);roomIndex=Math.min(removed,data.rooms.length-1);selected=null;message='';save();render();editor();document.getElementById('toast').classList.add('visible')}
+function undoDelete(){if(!deleted)return;data=deleted.data;roomIndex=deleted.roomIndex;selected=null;deleted=null;message='';document.getElementById('toast').classList.remove('visible');save();render();editor()}
+selected=data.items[0]?.id??null;if(selected!==null)roomIndex=data.items[0].room;render();editor();
+</script>
+</html>
